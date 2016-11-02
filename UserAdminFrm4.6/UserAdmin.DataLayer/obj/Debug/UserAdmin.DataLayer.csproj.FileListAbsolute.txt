@@ -1,0 +1,12 @@
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\UserAdmin.DataLayer.dll.config
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\UserAdmin.DataLayer.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\UserAdmin.DataLayer.pdb
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\EntityFramework.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\UserAdmin.ModelLayer.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\UserAdmin.ModelLayer.pdb
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\EntityFramework.xml
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\obj\Debug\UserAdmin.DataLayer.csprojResolveAssemblyReference.cache
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\obj\Debug\UserAdmin.DataLayer.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.DataLayer\obj\Debug\UserAdmin.DataLayer.pdb

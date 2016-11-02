@@ -1,0 +1,91 @@
+﻿@model MVC4UserAdmin.ViewModels.UserListViewModel
+
+
+@if (Model.UserList.Count() <= 0)
+{
+    <h3 style="text-align:center"> There are no users.  Please Click Create User to add one. </h3>
+}
+else
+{
+    <table id="userGridTable" class="display" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Firstname)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Surname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Email)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Active)
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Firstname)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Surname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Email)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Active)
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#userGridTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "sAjaxSource": "User/PopulateUserGridDataTable",
+            "fnServerData": function (sSource, aoData, fnCallback) {
+                aoData.push({});
+                $.ajax({
+                    "dataType": 'json',
+                   // "contentType": "application/json; charset=utf-8",
+                    "type": "POST",
+                    "url": sSource,
+                    "data": aoData,
+                    "success": function (msg) {
+                        var json = jQuery.parseJSON(msg.d);
+                        fnCallback(json);
+                        $("#userGridTable").show();
+                    },
+                    error: function (xhr, textStatus, error) {
+                        if (typeof console == "object") {
+                            console.log(xhr.status + "," + xhr.responseText + "," + textStatus + "," + error);
+                        }
+                    }
+                });
+            }
+            
+        });
+    });
+
+</script>

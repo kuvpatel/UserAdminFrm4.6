@@ -1,0 +1,159 @@
+﻿@model MVC4UserAdmin.ViewModels.UserListViewModel
+
+<input type="hidden" id="hidRefreshGridUrl" value="@Url.Action("UserGrid", "User")" />
+
+@if (Model.UserList.Count() <= 0)
+{
+    <h3 style="text-align:center"> There are no users.  Please Click Create User to add one. </h3>
+}
+else
+{
+    <table class="table table-bordered table-striped table-hover">
+       
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Firstname)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Surname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Email)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.UserList[0].Active)
+                </th>
+            </tr>
+       
+            @foreach (var item in Model.UserList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Firstname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                    <td>
+                        @Html.CheckBox("Active", item.Active == null ? false : (bool)item.Active)
+                    </td>
+
+
+                    <td><a href="@Url.Action("Edit", "User")" data-id="@item.ID" data-username="@item.Username" class="btn btn-success btn-xs editLineItem">Edit <span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a href="@Url.Action("Delete", "User")" class="btn btn-danger btn-xs delLineItem">Delete <span class="glyphicon glyphicon-remove"></span></a></td>
+
+                </tr>
+            }
+
+</table>
+
+
+}
+
+<div class="modal" id="confirmDelUserDlg" tabindex="-1" role="dialog" aria-labelledby="msgModal-label" style="top:10%" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="categoryModal-label">Delete</h4>
+            </div>
+            <div class="modal-body">
+                <span id="delmsgspan">Are you sure?</span>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+                <button type="button" data-dismiss="modal" data-id="" data-refreshurl="@Url.Action("UserGrid", "User")" data-delurl="@Url.Action("DeleteUser", "User")" class="btn btn-primary" id="deleteDlgButton">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.1.0.min.js")"></script>*@
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.datetimepicker.js")"></script>*@
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/MvcFoolproofValidation.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/MvcFoolproofJQueryValidation.min.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Scripts/mvcfoolproof.unobtrusive.min.js")"></script>*@
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.form.js")"></script>*@
+
+@*<script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        $('.delLineItem').click(function () {
+            var lineID = $(this).data('id');
+            var userName = $(this).data('username');
+            $('#deleteDlgButton').data('id', lineID); // setdelete
+            $('#delmsgspan').html('Delete <b>' + userName + '</b>');
+            $('#confirmDelUserDlg').modal('show');
+        });
+
+        $('#deleteDlgButton').click(function (event) {
+            
+            event.preventDefault();
+            var userID = $(this).data('id');
+         //   var headerID = $('#PartRequestHPK').val();
+            var urlAction = $('#hidRefreshGridUrl').val();
+
+            $.ajax({
+                url: $(this).data('delurl'),   // DeleteUser
+                type: "POST",
+                data: JSON.stringify({ UserID: userID }),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.Result == true) {
+                        //var DTO = {
+                        //    PartRequestHFK: headerID
+                        //};
+
+                        // this ajax refreshes the line item grid with the delete item removed
+                        $.ajax({
+                            url: urlAction,  // UserGrid
+                            type: "POST",
+                          //  data: DTO,
+                            dataType: "html",
+                            cache: false,
+                            success: function (data1) {
+                                $('#divUserGrid').html(data1);
+                            },
+                            error: function (xhr, status, error) {
+                                alert(xhr.responseText);
+                            }
+                        });
+                    }
+                    else {
+                        alert('Unable to delete the user');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+
+        });
+
+    });
+
+
+</script>

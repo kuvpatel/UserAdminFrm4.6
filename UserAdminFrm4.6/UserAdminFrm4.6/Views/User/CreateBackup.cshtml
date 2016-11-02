@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+
+<div class="container">
+   
+    <div class="row">
+        <div class="col-md-8">
+
+            @using (Html.BeginForm("Create", "User", FormMethod.Post, new { @class = "form-horizontal", id = "userForm" }))
+            {
+                <fieldset>
+                    <legend class="text-center">Create User</legend>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Firstname">Firstname</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Firstname", null, new { data_bind = "text: FirstName", @class = "form-control", type = "text", placeholder = "Firstname", required="true" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Surname">Surname</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Surname", null, new { data_bind = "text: Surname", @class = "form-control", type = "text", placeholder = "Surname", required="true" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Username">Username</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Username", null, new { data_bind = "text: Username", @class = "form-control", type = "text", placeholder = "Username" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Password">Password</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Password", null, new { data_bind = "text: Password", @class = "form-control", type = "password", placeholder = "Password" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="PasswordConfirm">Confirm Password</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("PasswordConfirm", null, new {@class = "form-control", type = "password", placeholder = "Confirm Password" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Email">Email</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Email", null, new { data_bind = "text: Email",  @class = "form-control", type = "email", placeholder = "Email" })
+                        </div>
+                    </div>
+
+                    <div class=" checkbox">
+                        @*<label class="control-label col-md-3" for="Email"></label>*@
+                        <label class="control-label col-md-3" for="IsActive"></label>
+                        <div class="col-md-9">
+                            @Html.CheckBox("Active", new {data_bind = "checked: Active" })<label class="control-label" for="Active">Active User?</label>
+                        </div>
+                    </div>
+
+                    <!-- Form actions -->
+                    <div class="form-group">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary" data-bind="click: btnCreateUser" id="btSave">
+                            Save <span class="glyphicon glyphicon-floppy-disk"></span>
+                        </button>
+                    </div> 
+                       
+                    </div>
+                      @{
+                            bool created = TempData.ContainsKey("Result") ? (bool)TempData["Result"] : false;
+                                
+                            if (!TempData.ContainsKey("Result") ) 
+                            {
+                                // do not show any message as save has not been clicked
+                            }
+                            if (created) 
+                            {
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <strong>OK</strong> The details were saved successfully.
+                                </div>
+                            }
+                            else if (!created) 
+                            {
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <strong>Error!</strong> Unable to save the details
+                                </div>                    
+                            }      
+                       }  
+                </fieldset>
+            
+            }
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@section Scripts {
+    
+
+    <style>
+        #userForm label.error {
+		width: auto;
+		display: inline;
+        color: red;
+	}
+    </style>
+
+    <script type="text/javascript">
+
+         //validate signup form on keyup and submit
+        $("#userForm").validate({
+            rules: {
+                Username: "required",
+                Password: { 
+                    required: true,
+                    minlength: 5
+                },
+                PasswordConfirm: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#Password"
+                },
+                Email: true
+            },
+            messages: {
+                Firstname: "Firstname is required",
+                Surname: "Surname is required",
+                Username: "Username is required",
+                Password: { 
+                    required: "Password is required",
+                    minlength:  "Password must be at least 5 characters long"
+                },
+                PasswordConfirm: {
+                    required: "Password is required",
+                    minlength: "Password must be at least 5 characters long",
+                    equalTo: "Please enter the same password as above"
+                },
+                Email: "Please enter a valid email address"
+            }
+        });
+
+
+        var urlPath = window.location.pathname;
+        var CreateUserVM = {
+            Firstname: ko.observable(),
+            Surname: ko.observable(),
+            Email: ko.observable(),
+            btnCreateUser: function () {
+
+                $.ajax({
+                    url: urlPath + '/User/Create',
+                    type: 'post',
+                    dataType: 'json',
+                    data: ko.toJSON(this),
+                    contentType: 'application/json',
+                    success: function (result) {
+                        window.location.href = urlPath + '/User/Create/'
+                    },
+                    error: function (err) {
+                       
+                    },
+                    complete: function () {
+                    }
+                });
+
+            }
+        };
+        ko.applyBindings(CreateUserVM);
+
+
+    </script>
+
+}
+
+
+
+
+
+
+

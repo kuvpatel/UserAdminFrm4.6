@@ -1,0 +1,9 @@
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\bin\Debug\UserAdmin.ModelLayer.dll.config
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\bin\Debug\UserAdmin.ModelLayer.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\bin\Debug\UserAdmin.ModelLayer.pdb
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\bin\Debug\EntityFramework.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\bin\Debug\EntityFramework.xml
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\obj\Debug\UserAdmin.ModelLayer.dll
+C:\Users\Kuvshik\Documents\Visual Studio 2015\Projects\UserAdminFrm4.6\UserAdmin.ModelLayer\obj\Debug\UserAdmin.ModelLayer.pdb

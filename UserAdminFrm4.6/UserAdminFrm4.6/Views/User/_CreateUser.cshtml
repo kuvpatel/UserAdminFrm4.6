@@ -1,0 +1,266 @@
+﻿@model MVC4UserAdmin.ViewModels.UserViewModel
+
+
+@{
+    ViewBag.Title = "_UserLineItem";
+}
+
+
+@{
+    var ajaxOptions = new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "OnItemSuccess",
+        OnFailure = "OnLineItemFailure"
+    };
+}
+
+
+
+<style>
+    .readonly {
+        border-color: #b9e3ff;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        background-color: #b9e3ff;
+    }
+
+    .controlSize {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    }
+
+
+    .controlSizeReadOnly {
+        border-color: #F4F5F6;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+        background-color: #F4F5F6;
+    }
+
+    .tooltip.top .tooltip-inner {
+        background-color: #317eac;
+        /*white-space:pre-wrap;*/
+    }
+
+    .tooltip.top .tooltip-arrow {
+        border-top-color: #317eac;
+    }
+
+    .inline {
+        display: inline;
+    }
+</style>
+
+
+<div>
+
+    <div class="form-horizontal">
+        @using (Ajax.BeginForm("", "", ajaxOptions, new { @id = "UserLineItemForm", enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="categoryModal-label"><span style="padding-right:10px" class="glyphicon glyphicon-plus"></span>User Details</h4>
+</div>
+            
+
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend></legend>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Firstname">Firstname</label>
+                    <div class="col-md-4">
+                        @Html.TextBox("Firstname", null, new { data_bind = "value: Firstname", @class = "form-control input-md", type = "text", required = "true", placeholder = "Firstname" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Surname">Surname</label>
+                    <div class="col-md-4">
+                        @Html.TextBox("Surname", null, new { data_bind = "value: Surname", @class = "form-control input-md", type = "text", required = "true", placeholder = "Surname" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Username">Username</label>
+                    <div class="col-md-4">
+                        @Html.TextBox("Username", null, new { data_bind = "value: Username", @class = "form-control input-md", type = "text", placeholder = "Username" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="Password">Password</label>
+                    <div class="col-md-4">
+                        @Html.TextBox("Password", null, new { data_bind = "value: Password", @class = "form-control input-md", type = "password", placeholder = "Password" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="PasswordConfirm">Confirm Password</label>
+                    <div class="col-md-4">
+                        @Html.TextBox("PasswordConfirm", null, new { @class = "form-control input-md", type = "password", placeholder = "Confirm Password" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Email">Email</label>
+                    <div class="col-md-4">
+                        @Html.TextBox("Email", null, new { data_bind = "value: Email", @class = "form-control input-md", type = "email", placeholder = "Email" })
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="Active">Is Active</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input id="Active" name="Active" class="form-control" placeholder="Is Active" type="text">
+                            <span class="input-group-addon">
+                                <input checked="checked" type="checkbox">
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="padding-left:10px; padding-right:10px;" id="alertSavePartLineContainer">
+                </div>
+                <div class="modal-footer">
+
+                    <div class="col-md-12">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-3">
+                            <button id="btSave" name="Save" data-bind="click: btnCreateUser" type="submit" class="form-control btn btn-primary">Save <span class="glyphicon glyphicon-floppy-disk"></span></button>
+                        </div>
+                        <div class="col-md-3">
+                            <button id="btCancel" name="Cancel" data-dismiss="modal" type="button" class="form-control btn btn-danger">Cancel <span class="glyphicon  glyphicon glyphicon-trash"></span></button>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="hidRefreshUrl" value="@Url.Action("Index", "User")">
+
+
+            </fieldset>
+        }
+
+    </div>
+
+
+</div>
+
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/ViewModel/CreateVM.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+
+    });
+
+    function successFunc(data, status) {
+
+        if (data.Result == true) {
+          
+            if (data.AltPartNumFound == true) {
+                $('#AltPartNum').val(data.AltPartNum);
+                $('#PartPrice').val(data.PartPrice);
+                $('#divAltPriceFields').show();
+            }
+            if (data.PartPriceFound == false) {
+                // show a message to enter m2 buy price in red
+                data.Result = false;        // set to show message in red.
+                $('#M2BuyPriceLabel').addClass('required');
+                data.Message = "The M2 Buy Price must be entered";
+
+                ShowLineItemAlert(data);
+            }
+            $('#PartDescription').val(data.Description);
+        }
+        else {
+            // show error and not allow save
+            $('#PartDescription').val(data.Description);
+            ShowLineItemAlert(data);
+            $('#divAltPriceFields').hide();
+        }
+        $("#dictionaryDropDown").html(data);
+    }
+
+
+
+
+    function OnLineItemSuccess(data) {
+        if (data.Result == true) {
+            var UserID = $('#ID').val();
+            var DTO = {
+                ID: UserID
+            };
+            alert('OnLineItemSuccess');
+            ShowLineItemAlert(data);
+
+            $.ajax({
+                url: $('#hidRefreshUrl').val(),   //url: "/PartsOrder/PartsOrderLineGrid",
+                type: "POST",
+                data: DTO,
+                dataType: "html",
+                cache: false,
+                success: function (data1) {
+                    $('#divPartsOrderLineGrid').html(data1);
+                    $('#btnSendPartOrderHeader').show();
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+
+            $('#msgEditModal').modal('hide');
+        }
+        else {
+            ShowLineItemAlert(data);
+        }
+
+    }
+
+
+    function OnLineItemFailure() {
+        alart('Unable to save the Part Order Line details');
+    }
+
+    function ShowLineItemAlert(data) {
+        var line = "";
+        if (data.Result == true) {
+            if (data.Message === "") {
+                data.Message = "The user was created sucessfully.";
+            }
+            line += "<div id='alertSavePartLine'  class='alert alert-success alert-block fade in'>";
+        }
+        else {
+            line += "<div id='alertSavePartLine'  class='alert alert-danger alert-block fade in'>";
+            if (data.Message === "") {
+                data.Message = "Unable to create the user.";
+                $('#btnSave').attr('disabled', true); // do not allow save again
+            }
+            else {
+                // use the message passed from the controller
+            }
+        }
+        line += '<button type="button" id="Alert_SavePartLineButton" class="close" data-dismiss="alert" aria-hidden="true"> &times;</button>';
+        line += '<span id="PartLineMessage">' + data.Message + '</span>';
+        line += '</div>';
+        $('#alertSavePartLineContainer').html(line);
+    }
+
+</script>
+
+
+

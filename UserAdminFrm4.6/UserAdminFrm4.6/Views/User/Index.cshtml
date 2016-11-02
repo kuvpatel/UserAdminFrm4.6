@@ -1,0 +1,150 @@
+﻿@model MVC4UserAdmin.ViewModels.UserListViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container" >
+  
+    
+    <div class="clearfix">
+        @*<a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm pull-right">Create New User  <span class="glyphicon glyphicon-plus"></span></a>*@
+        <a href="@Url.Action("Edit", "User", new {ID = 6})" class="btn btn-primary btn-sm pull-right">EditUser  <span class="glyphicon glyphicon-plus"></span></a>
+        @*<button id="btAddUser" name="Create"  class="form-control btn btn-primary">Create <span class="glyphicon glyphicon-plus"></span></button>*@
+
+        <a href="#" id="btAddUser" class="btn btn-primary btn-sm pull-right">Create  <span class="glyphicon glyphicon-plus"></span></a>
+
+
+    </div>
+    <br />  
+    <input type="hidden" id="hidCreateUserUrl" value="@Url.Action("Create1", "User")" />
+
+    <div class="panel panel-default">
+        @*<button id="btAddOrder" type="button" class="btn btn-default btn-xs btn-success">Add Order Line</button>*@
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <strong> User List</strong></h3>
+        </div>
+        <div id="divUserGrid">
+            @{ Html.RenderPartial("_UserGridDataTable", Model); }
+        </div>
+    </div>
+
+    <div class="modal" id="msgEditModal" tabindex="-1" role="dialog" aria-labelledby="msgModal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="divLineItemModal"></div>
+            </div>
+        </div>
+    </div>
+  
+    @*<div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <strong> User List</strong></h3>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Firstname</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: Users">
+                <tr>
+                    <td data-bind="text: ID"></td>
+                    <td data-bind="text: Firstname"></td>
+                    <td data-bind="text: Surname"></td>
+                    <td data-bind="text: Email"></td>
+                    <td data-bind="text: Username"></td>
+                    <td><a href="@Url.Action("Edit", "User")" class="btn btn-success btn-xs ">Edit <span class="glyphicon glyphicon-pencil"></span></a></td>
+                    <td><a href="@Url.Action("Delete", "User")" class="btn btn-danger btn-xs ">Delete <span class="glyphicon glyphicon-remove"></span></a></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+    </div>*@
+
+</div>
+
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+        $(function () {
+            ko.applyBindings(indexVM);
+            indexVM.loadUsers();
+        });
+
+
+      //  $('#btAddOrder').hide();
+
+        $('#btAddUser').click(function () {
+            var urlAction = $('#hidCreateUserUrl').val();
+           // var OrderNum = $('#ID').val();
+           // var PartRequestHPK = $('#PartRequestHPK').val();
+
+            //var DTO = {
+            //    PartsRequestOrderNum: OrderNum,
+            //    PartRequestHPK: PartRequestHPK
+            //};
+
+            $.ajax({
+                // url: "/User/Create",
+                url: urlAction,
+                type: "POST",
+             //   data: DTO,
+                dataType: "html",
+                cache: false,
+                success: function (data) {
+                    $('#divLineItemModal').html(data);
+                    $('#msgEditModal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+
+        });
+
+
+        var indexVM = {
+            Users: ko.observableArray([]),
+
+            loadUsers: function () {
+                var self = this;
+
+                $.ajax({
+                    type: "GET",
+                    url: '/User/FillIndex',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        self.Users(data); //Put the response in ObservableArray
+                    },
+                    error: function (err) {
+                        alert('error');
+                        alert(err.status + " : " + err.statusText);
+                    }
+                });
+
+            }
+        };
+
+        function Users(Users) {
+            this.ID = ko.observable(Users.ID);
+            this.Firstname = ko.observable(Users.Firstname);
+            this.Surname = ko.observable(Users.Surname);
+            this.Email = ko.observable(Users.Email);
+            this.Username = ko.observable(Users.Username);
+        }
+
+    </script>
+
+
+}

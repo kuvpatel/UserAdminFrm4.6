@@ -1,0 +1,80 @@
+﻿<div class="container">
+   
+    <div class="row">
+        <div class="col-md-8">
+
+            @using (Html.BeginForm(new { @class = "form-horizontal", id = "userForm" }))
+            {
+            
+                 <fieldset>
+                    <legend class="text-center">Create User</legend>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Firstname">Firstname</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Firstname", null, new { data_bind = "value: Firstname", @class = "form-control", type = "text", placeholder = "Firstname" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Surname">Surname</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Surname", null, new { data_bind = "value: Surname", @class = "form-control", type = "text", placeholder = "Surname" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Username">Username</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Username", null, new { data_bind = "value: Username", @class = "form-control", type = "text", placeholder = "Username" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Password">Password</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Password", null, new { data_bind = "value: Password", @class = "form-control", type = "password", placeholder = "Password" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="PasswordConfirm">Confirm Password</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("PasswordConfirm", null, new {@class = "form-control", type = "password", placeholder = "Confirm Password" })
+                        </div>
+                    </div>	
+
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="Email">Email</label>
+                        <div class="col-md-9">
+                            @Html.TextBox("Email", null, new { data_bind = "value: Email",  @class = "form-control", type = "email", placeholder = "Email" })
+                        </div>
+                    </div>
+
+                    <div class=" checkbox">
+                        @*<label class="control-label col-md-3" for="Email"></label>*@
+                        <label class="control-label col-md-3" for="IsActive"></label>
+                        <div class="col-md-9">
+                            @Html.CheckBox("Active", new {data_bind = "checked: Active" })<label class="control-label" for="Active">Active User?</label>
+                        </div>
+                    </div>
+
+                    <!-- Form actions -->
+                    <div class="form-group">
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-primary" data-bind="click: btnCreateUser" id="btSave">
+                            Save <span class="glyphicon glyphicon-floppy-disk"></span>
+                        </button>
+                    </div> 
+                       
+                    </div>
+                     
+                </fieldset>
+            }
+           
+        </div>
+    </div>
+
+</div>
+
