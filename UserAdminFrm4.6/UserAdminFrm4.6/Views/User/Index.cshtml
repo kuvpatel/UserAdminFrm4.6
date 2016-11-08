@@ -4,12 +4,12 @@
     ViewBag.Title = "Index";
 }
 
-<div class="container" >
+<div class="container" > 
   
     
     <div class="clearfix">
         @*<a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm pull-right">Create New User  <span class="glyphicon glyphicon-plus"></span></a>*@
-        <a href="@Url.Action("Edit", "User", new {ID = 6})" class="btn btn-primary btn-sm pull-right">EditUser  <span class="glyphicon glyphicon-plus"></span></a>
+        <a href="@Url.Action("Edit", "User", new {ID = 6})" class="btn btn-primary btn-sm pull-right">Edit User  <span class="glyphicon glyphicon-plus"></span></a>
         @*<button id="btAddUser" name="Create"  class="form-control btn btn-primary">Create <span class="glyphicon glyphicon-plus"></span></button>*@
 
         <a href="#" id="btAddUser" class="btn btn-primary btn-sm pull-right">Create  <span class="glyphicon glyphicon-plus"></span></a>
@@ -25,7 +25,8 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> <strong> User List</strong></h3>
         </div>
         <div id="divUserGrid">
-            @{ Html.RenderPartial("_UserGridDataTable", Model); }
+            <br />
+            @{ Html.RenderPartial("_UserGridDataTable3", Model); }
         </div>
     </div>
 

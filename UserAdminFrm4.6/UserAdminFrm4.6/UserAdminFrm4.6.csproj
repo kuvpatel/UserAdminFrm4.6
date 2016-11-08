@@ -222,6 +222,9 @@
     <Content Include="Views\User\_CreateUser.cshtml" />
     <Content Include="Views\User\_UserGrid.cshtml" />
     <Content Include="Views\User\_UserGridDataTable.cshtml" />
+    <Content Include="Views\User\_UserGridDataTable2.cshtml" />
+    <Content Include="Views\User\Index2.cshtml" />
+    <Content Include="Views\User\_UserGridDataTable3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

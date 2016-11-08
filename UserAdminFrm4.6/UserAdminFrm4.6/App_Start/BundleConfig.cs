@@ -23,17 +23,20 @@ namespace UserAdminFrm4._6
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
-            
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+
+                 bundles.Add(new StyleBundle("~/Content/css").Include(
                            "~/Content/site.css",
-                           "~/bower_components/bootstrap/dist/css/bootstrap.min.css"
+                           "~/bower_components/bootstrap/dist/css/bootstrap.min.css",
+                           "~/bower_components/datatables.net-bs/css/jquery.dataTables.min.css"
                            ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/bower_components/bootstrap/dist/js/bootstrap.min.js"));
+                      "~/bower_components/bootstrap/dist/js/bootstrap.min.js",
+                      "~/bower_components/datatables.net/js/jquery.dataTables.min.js"
+                      ));
                       
-            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
-                   "~/Scripts/knockout-{version}.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+            //       "~/Scripts/knockout-{version}.js"));
 
 
             //bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

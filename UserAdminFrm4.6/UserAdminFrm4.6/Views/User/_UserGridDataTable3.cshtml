@@ -1,0 +1,48 @@
+﻿
+@model MVC4UserAdmin.ViewModels.UserListViewModel
+
+<table id="userGridTable" class="display" width="100%"></table>
+
+<script type="text/javascript">
+    
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "User/PopulateUserGridDataTable",
+                data: "{}",
+                dataType: "json",
+                success: function (data) {
+                    //var str = JSON.parse(data);
+                    // populate columns
+                    aoColumnArray = [];
+                    $.each(data.aaHeaders, function (index, value) {
+                        var aoColumns = new Object;
+                        aoColumns['sTitle'] = value;
+                        aoColumns['sClass'] = 'genmed';
+                        aoColumnArray.push(aoColumns);
+                    });
+                    // populate data
+                    userTable = [];
+                    userTable.aaData = data.aaData;
+                    userTable.aaSorting = [[0, "asc"], [1, "desc"], [2, "desc"]];
+                    userTable.aoColumns = aoColumnArray;
+                    userTable.bJQueryUI = true;
+                    userTable.bScrollInfinite = true;
+                    userTable.bScrollCollapse = true;
+                    userTable.bDestroy = true;
+                    userTable.bDeferRender = true;
+                    userTable.iDisplayLength = 50;
+                    userTable.sScrollY = '400px';
+                    userTable.sDom = 'Rlfrtip';
+                    $('#userGridTable').dataTable(userTable);
+                },
+                error: function (xhr, textStatus, error) {
+                        if (typeof console == "object") {
+                            console.log(xhr.status + "," + xhr.responseText + "," + textStatus + "," + error);
+                        }
+                }
+            });
+        });
+
+
+</script>

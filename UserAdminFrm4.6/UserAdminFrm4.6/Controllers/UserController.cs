@@ -24,7 +24,7 @@ namespace MVC4UserAdmin.Controllers
             foreach (User1 u in dbList)
             {
                 uvm = new UserViewModel();
-                uvm.Active = u.Active;
+                uvm.Active = (bool)u.Active;
                 uvm.Email = u.Email;
                 uvm.Firstname = u.Firstname;
                 uvm.ID = u.ID;
@@ -33,7 +33,7 @@ namespace MVC4UserAdmin.Controllers
                 uvmList.Add(uvm);
             }
             model.UserList = uvmList;
-            return View(model);
+            return View( "Index", model);
         }
 
 
@@ -48,7 +48,7 @@ namespace MVC4UserAdmin.Controllers
             foreach (User1 u in dbList)
             {
                 uvm = new UserViewModel();
-                uvm.Active = u.Active;
+                uvm.Active = (bool)u.Active;
                 uvm.Email = u.Email;
                 uvm.Firstname = u.Firstname;
                 uvm.ID = u.ID;
@@ -70,7 +70,7 @@ namespace MVC4UserAdmin.Controllers
             foreach (User1 u in dbList)
             {
                 uvm = new UserViewModel();
-                uvm.Active = u.Active;
+                uvm.Active = (bool)u.Active;
                 uvm.Email = u.Email;
                 uvm.Firstname = u.Firstname;
                 uvm.ID = u.ID;
@@ -78,6 +78,7 @@ namespace MVC4UserAdmin.Controllers
                 uvm.Username = u.Username;
                 uvmList.Add(uvm);
             }
+
             return Json(uvmList, JsonRequestBehavior.AllowGet);
         }
 
@@ -135,7 +136,7 @@ namespace MVC4UserAdmin.Controllers
                 User1 u = repository.Get(ID);
 
                 uvm = new UserViewModel();
-                uvm.Active = u.Active;
+                uvm.Active = (bool)u.Active;
                 uvm.Email = u.Email;
                 uvm.Firstname = u.Firstname;
                 uvm.ID = u.ID;
@@ -183,15 +184,92 @@ namespace MVC4UserAdmin.Controllers
         }
 
 
-        public EmptyResult PopulateUserGridDataTable()
-        {
+        //public ActionResult PopulateUserGridDataTable()
+        //{
 
-            return null;
-         
+        //    UserRepository repository = new UserRepository();
+        //    IEnumerable<User1> dbList = repository.GetAll();
+        //    List<UserViewModel> uvmList = new List<UserViewModel>();
+        //    UserViewModel uvm = null;
+        //    foreach (User1 u in dbList)
+        //    {
+        //        uvm = new UserViewModel();
+        //        uvm.Active = (bool)u.Active;
+        //        uvm.Email = u.Email;
+        //        uvm.Firstname = u.Firstname;
+        //        uvm.ID = u.ID;
+        //        uvm.Surname = u.Surname;
+        //        uvm.Username = u.Username;
+        //        uvmList.Add(uvm);
+        //    }
+
+
+        //    var data = new
+        //    {
+        //        success = "true",
+        //        aaData = uvmList.ToArray()
+        //    };
+
+
+        //    return Json(data, JsonRequestBehavior.AllowGet);
+
+        //    //  return Json(new {  result = uvmList }, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult PopulateUserGridDataTable()
+        {
+            try
+            {
+                UserRepository repository = new UserRepository();
+                IEnumerable<User1> dbList = repository.GetAll();
+                string[][] dataArray = new string[dbList.Count()][];
+
+                List<string> lineItem = new List<string>();
+                int index = 0;
+                foreach (User1 u in dbList)
+                {
+                    lineItem.Add(u.Firstname);
+                    lineItem.Add(u.Surname);
+                    lineItem.Add(u.Username);
+                    lineItem.Add(u.Email);
+                    lineItem.Add(u.Active == true ? "True" : "False");
+
+                    dataArray[index] = new string[5];
+                    dataArray[index] = lineItem.ToArray();
+                    index++;
+                    lineItem.Clear();
+                }
+
+                List<string> headerList = new List<string>();
+                headerList.Add("Firstname");
+                headerList.Add("Surname");
+                headerList.Add("Username");
+                headerList.Add("Email");
+                headerList.Add("Active");
+
+                var data = new
+                {
+                    aaData = dataArray,
+                    aaHeaders = headerList.ToArray(),
+                    success = true
+                };
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                var data = new
+                {
+                    aaData = "",
+                    aaHeaders = "",
+                    success = false
+                };
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+          
         }
 
-
-
     }
+
 
 }

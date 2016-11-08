@@ -1,6 +1,9 @@
 ﻿@model MVC4UserAdmin.ViewModels.UserListViewModel
 
 
+
+
+
 @if (Model.UserList.Count() <= 0)
 {
     <h3 style="text-align:center"> There are no users.  Please Click Create User to add one. </h3>
@@ -58,34 +61,42 @@ else
 
 <script type="text/javascript">
 
-    $(document).ready(function () {
+   
 
-        $('#userGridTable').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "sAjaxSource": "User/PopulateUserGridDataTable",
-            "fnServerData": function (sSource, aoData, fnCallback) {
-                aoData.push({});
-                $.ajax({
-                    "dataType": 'json',
-                   // "contentType": "application/json; charset=utf-8",
-                    "type": "POST",
-                    "url": sSource,
-                    "data": aoData,
-                    "success": function (msg) {
-                        var json = jQuery.parseJSON(msg.d);
-                        fnCallback(json);
-                        $("#userGridTable").show();
-                    },
-                    error: function (xhr, textStatus, error) {
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                url: "User/PopulateUserGridDataTable",
+                data: "{}",
+              //  data: aoData,
+               // contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                 
+                  //var str = JSON.parse(data);
+                    alert(data.result);
+
+                   // console.log(JSON.parse(data.d.result));
+                    $('#userGridTable').dataTable({
+                        "aaData": data.d,
+                        "aoColumns": [
+                            { "aaData": "Firstname" },
+                            { "aaData": "Surname" },
+                            { "aaData": "Username" },
+                            { "aaData": "Active" }
+                        ]
+                    });
+
+
+                },
+                error: function (xhr, textStatus, error) {
                         if (typeof console == "object") {
                             console.log(xhr.status + "," + xhr.responseText + "," + textStatus + "," + error);
                         }
-                    }
-                });
-            }
-            
+                }
+            });
         });
-    });
+
+   
 
 </script>
