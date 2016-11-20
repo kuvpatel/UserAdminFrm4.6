@@ -15,6 +15,9 @@
                     //var str = JSON.parse(data);
                     // populate columns
                     aoColumnArray = [];
+
+                    alert(JSON.stringify(data.aaData));
+
                     $.each(data.aaHeaders, function (index, value) {
                         var aoColumns = new Object;
                         aoColumns['sTitle'] = value;

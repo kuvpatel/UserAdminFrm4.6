@@ -9,10 +9,10 @@
     
     <div class="clearfix">
         @*<a href="@Url.Action("Create", "User")" class="btn btn-primary btn-sm pull-right">Create New User  <span class="glyphicon glyphicon-plus"></span></a>*@
-        <a href="@Url.Action("Edit", "User", new {ID = 6})" class="btn btn-primary btn-sm pull-right">Edit User  <span class="glyphicon glyphicon-plus"></span></a>
+        @*<a href="@Url.Action("Edit", "User", new {ID = 6})" class="btn btn-primary btn-sm pull-right">Edit User  <span class="glyphicon glyphicon-plus"></span></a>*@
         @*<button id="btAddUser" name="Create"  class="form-control btn btn-primary">Create <span class="glyphicon glyphicon-plus"></span></button>*@
 
-        <a href="#" id="btAddUser" class="btn btn-primary btn-sm pull-right">Create  <span class="glyphicon glyphicon-plus"></span></a>
+        <a href="#" id="btAddUser" class="btn btn-primary btn-sm pull-right">Add User <span class="glyphicon glyphicon-plus"></span></a>
 
 
     </div>
@@ -26,7 +26,8 @@
         </div>
         <div id="divUserGrid">
             <br />
-            @{ Html.RenderPartial("_UserGridDataTable3", Model); }
+            @{ Html.RenderPartial("_UserGridDataTable4", Model); }
+            <br />
         </div>
     </div>
 

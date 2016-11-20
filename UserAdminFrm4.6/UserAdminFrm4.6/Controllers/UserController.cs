@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using UserAdmin.Models;
 using UserAdmin.DataLayer;
 using MVC4UserAdmin.ViewModels;
+using System.Linq.Dynamic;
 
 namespace MVC4UserAdmin.Controllers
 {
@@ -268,6 +269,66 @@ namespace MVC4UserAdmin.Controllers
             }
           
         }
+
+
+        [HttpPost]
+        public ActionResult GetUserData()
+        {
+
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Find Order Column
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+
+            //UserRepository repository = new UserRepository();
+            // IEnumerable<User1> dbList = repository.GetAll();
+
+
+            UsersContext db = new UsersContext();
+
+            var v = from u in db.Users
+                    where u.Active == true
+                    select new UserViewModel
+                    {
+                        ID = u.ID,
+                        Firstname = u.Firstname,
+                        Surname = u.Surname,
+                        Username = u.Username,
+                        Email = u.Email,
+                        Active = u.Active != null ? (bool)u.Active : false
+                    };
+
+            //var v = (from a in dbList select a);
+
+            // dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
+            //  var v = (from a in dbList select a);
+
+            //SORT
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                v = v.OrderBy(sortColumn + " " + sortColumnDir);
+                //IEnumerable <User1> x = v.OrderBy<User1,string>( p => sortColumn);
+                //v = x;
+            }
+
+            // TO DO order by descending
+
+            recordsTotal = v.Count();
+            var data = v.Skip(skip).Take(pageSize).ToList();
+            return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+
+            
+
+        }
+
+
 
     }
 

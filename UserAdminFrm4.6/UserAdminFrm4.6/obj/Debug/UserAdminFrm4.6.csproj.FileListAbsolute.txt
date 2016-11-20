@@ -88,6 +88,7 @@ C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\Mi
 C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\Microsoft.Web.Infrastructure.dll
 C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\Newtonsoft.Json.dll
+C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\System.Linq.Dynamic.dll
 C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\System.Web.Helpers.dll
 C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\System.Web.Mvc.dll
 C:\Development\MyProjects\UserAdminFrm4.6\UserAdminFrm4.6\UserAdminFrm4.6\bin\System.Web.Optimization.dll
